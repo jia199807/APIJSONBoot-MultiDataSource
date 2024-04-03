@@ -5,4 +5,4 @@ dockerhub账号密码
 tianyang.jia@zzjunzhi.com
 Jiatianyangv5
 
-推送到 dockerhub docker push zzjunzhi/apijson:latest
+推送到dockerhub docker push zzjunzhi/apijson:1.1

@@ -56,6 +56,15 @@ public class DemoParser extends APIJSONParser<Long> {
         super(method, needVerify);
     }
 
+    // 最大嵌套层级
+    public int MAX_QUERY_DEPTH = 20;
+
+    @Override
+    public int getMaxQueryDepth() {
+        return MAX_QUERY_DEPTH;
+    }
+
+    // 最大查询数量
     private int maxQueryCount = 2000;
     private int maxUpdateCount = 2000;
 
