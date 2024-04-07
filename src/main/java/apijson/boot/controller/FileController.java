@@ -1,4 +1,4 @@
-package apijson.boot;
+package apijson.boot.controller;
 
 import apijson.demo.DemoParser;
 import com.alibaba.fastjson.JSONObject;

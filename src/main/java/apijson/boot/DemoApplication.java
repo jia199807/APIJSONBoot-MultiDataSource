@@ -17,6 +17,7 @@ package apijson.boot;
 import apijson.Log;
 import apijson.NotNull;
 import apijson.StringUtil;
+import apijson.boot.controller.DemoController;
 import apijson.demo.*;
 import apijson.framework.APIJSONApplication;
 import apijson.framework.APIJSONCreator;
