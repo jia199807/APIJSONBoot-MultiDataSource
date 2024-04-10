@@ -16,7 +16,7 @@ package apijson.demo;
 
 import apijson.RequestMethod;
 import apijson.StringUtil;
-import apijson.boot.DemoController;
+import apijson.boot.controller.DemoController;
 import apijson.demo.model.Privacy;
 import apijson.framework.APIJSONObjectParser;
 import apijson.framework.APIJSONParser;
