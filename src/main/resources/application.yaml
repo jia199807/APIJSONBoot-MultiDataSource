@@ -1,0 +1,5 @@
+version: 8.3.0
+url: jdbc:mysql://192.168.21.191:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+username: root
+password: root
+test: dasdas

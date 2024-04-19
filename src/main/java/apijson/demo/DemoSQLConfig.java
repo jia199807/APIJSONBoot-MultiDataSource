@@ -21,8 +21,10 @@ import apijson.orm.AbstractSQLConfig;
 import apijson.orm.Join;
 import apijson.orm.Join.On;
 import com.alibaba.fastjson.annotation.JSONField;
+import org.yaml.snakeyaml.Yaml;
 
 import java.util.List;
+import java.util.Map;
 
 import static apijson.framework.APIJSONConstant.*;
 
@@ -37,10 +39,15 @@ import static apijson.framework.APIJSONConstant.*;
  */
 public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
 
-    String mysqlVersion = System.getenv("MYSQL_VERSION");
-    String mysqlUrl = System.getenv("MYSQL_URL");
-    String mysqlUsername = System.getenv("MYSQL_USERNAME");
-    String mysqlPassword = System.getenv("MYSQL_PASSWORD");
+    Map<String, Object> yamlData = new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml"));
+    String mysqlVersion = (String) yamlData.get("version");
+    String mysqlUrl = (String) yamlData.get("url");
+    String mysqlUsername = (String) yamlData.get("username");
+    String mysqlPassword = (String) yamlData.get("password");
+
+
+
+
 
 
     public DemoSQLConfig() {
