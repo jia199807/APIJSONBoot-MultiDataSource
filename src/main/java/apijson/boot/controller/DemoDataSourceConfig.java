@@ -92,7 +92,7 @@ public class DemoDataSourceConfig {
         Map<String, DruidDataSource> map = new HashMap<>();
         Connection conn = DriverManager.getConnection(demoSQLConfig.getDBUri(), demoSQLConfig.getDBAccount(), demoSQLConfig.getDBPassword());
         Statement statement = conn.createStatement();
-        ResultSet rs = statement.executeQuery("select * from db.data_source");
+        ResultSet rs = statement.executeQuery("select * from sys.data_source");
         while (rs.next()) {
             String name = rs.getString("pool_name");
             String username = rs.getString("username");
