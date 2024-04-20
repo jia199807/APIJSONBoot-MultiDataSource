@@ -43,6 +43,7 @@ import unitauto.MethodUtil.JSONCallback;
 import unitauto.jar.UnitAutoApp;
 
 import javax.naming.Context;
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
@@ -80,8 +81,8 @@ public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableS
 
         // FIXME 不要开放给项目组后端之外的任何人使用 UnitAuto（强制登录鉴权）！！！如果不需要单元测试则移除相关代码或 unitauto.Log.DEBUG = false;
         // 上线生产环境前改为 false，可不输出 APIJSONORM 的日志 以及 SQLException 的原始(敏感)信息
-        unitauto.Log.DEBUG = Log.DEBUG = true;
-        APIJSONParser.IS_PRINT_BIG_LOG = true;
+        unitauto.Log.DEBUG = Log.DEBUG = false;
+        APIJSONParser.IS_PRINT_BIG_LOG = false;
 //        APIJSONSQLConfig.ENABLE_COLUMN_CONFIG = true; // apijson-framework 已集成字段插件 apijson-column，支持 !key 反选字段 和 字段名映射
         APIJSONApplication.init();
         APIJSONRouterApplication.init();
@@ -223,7 +224,11 @@ public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableS
 
             @Override
             public SQLConfig createSQLConfig() {
-                return new DemoSQLConfig();
+                try {
+                    return new DemoSQLConfig();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override

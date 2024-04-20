@@ -23,6 +23,9 @@ import apijson.orm.Join.On;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -37,24 +40,21 @@ import static apijson.framework.APIJSONConstant.*;
  *
  * @author Lemon
  */
+// @PropertySource("classpath:application.yaml")
 public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
-
-    Map<String, Object> yamlData = new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml"));
+    Map<String, Object> yamlData = System.getenv("CONFIG_LOCATION") == null ?
+            new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml")) :
+            new Yaml().load(Files.newInputStream(Paths.get(System.getenv("CONFIG_LOCATION"))));
     String mysqlVersion = (String) yamlData.get("version");
     String mysqlUrl = (String) yamlData.get("url");
     String mysqlUsername = (String) yamlData.get("username");
     String mysqlPassword = (String) yamlData.get("password");
 
-
-
-
-
-
-    public DemoSQLConfig() {
+    public DemoSQLConfig() throws IOException {
         super();
     }
 
-    public DemoSQLConfig(RequestMethod method, String table) {
+    public DemoSQLConfig(RequestMethod method, String table) throws IOException {
         super(method, table);
     }
 
@@ -77,7 +77,11 @@ public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
 
             @Override
             public AbstractSQLConfig getSQLConfig(RequestMethod method, String database, String schema, String datasource, String table) {
-                return new DemoSQLConfig(method, table);
+                try {
+                    return new DemoSQLConfig(method, table);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             // 取消注释来实现自定义各个表的主键名
