@@ -22,8 +22,12 @@ import apijson.framework.APIJSONObjectParser;
 import apijson.framework.APIJSONParser;
 import apijson.orm.SQLConfig;
 import com.alibaba.fastjson.JSONObject;
+import org.yaml.snakeyaml.Yaml;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +39,20 @@ import java.util.Map;
  * @author Lemon
  */
 public class DemoParser extends APIJSONParser<Long> {
+
+    Map<String, Object> yamlData;
+
+    {
+        try {
+            yamlData = System.getenv("CONFIG_LOCATION") == null ?
+                    new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml")) :
+                    new Yaml().load(Files.newInputStream(Paths.get(System.getenv("CONFIG_LOCATION"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 
     public static final Map<String, HttpSession> KEY_MAP;
@@ -65,18 +83,32 @@ public class DemoParser extends APIJSONParser<Long> {
     }
 
     // 最大查询数量
-    private int maxQueryCount = 2000;
-    private int maxUpdateCount = 2000;
+    private int maxQueryCount = (int) yamlData.get("maxQueryCount");
+    // 最大更新数量
+    private int maxUpdateCount = (int) yamlData.get("maxUpdateCount");
+    // 最大分页数量
+    private int maxQueryPage = (int) yamlData.get("maxQueryPage");
+
+    // // 最大查询数量
+    // private int maxQueryCount = 2000;
+    // // 最大更新数量
+    // private int maxUpdateCount = 2000;
+    // // 最大分页数量
+    // private int maxQueryPage = 2000;
 
     //	可重写来设置最大查询数量
     @Override
     public int getMaxQueryCount() {
         return maxQueryCount;
     }
-
     @Override
     public int getMaxUpdateCount() {
         return maxUpdateCount;
+    }
+
+    @Override
+    public int getMaxQueryPage() {
+        return maxQueryPage;
     }
 
     @Override
