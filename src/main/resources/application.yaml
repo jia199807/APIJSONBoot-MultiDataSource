@@ -1,7 +1,14 @@
 version: 8.3.0
-url: jdbc:mysql://192.168.21.191:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+url: jdbc:mysql://192.168.21.125:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
 username: root
 password: root
 maxQueryCount: 2000
 maxUpdateCount: 2000
-maxQueryPage: 2000
+maxQueryPage: 10000
+
+app:
+  #  开启debug
+  debug: true
+  #  打印大日志
+  isPrintBigLog: false
+

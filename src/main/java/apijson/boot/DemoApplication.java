@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 
@@ -63,12 +64,14 @@ import java.util.regex.Pattern;
 public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
     private static final String TAG = "DemoApplication";
 
+
     // 全局 ApplicationContext 实例，方便 getBean 拿到 Spring/SpringBoot 注入的类实例
     private static ApplicationContext APPLICATION_CONTEXT;
 
     public static ApplicationContext getApplicationContext() {
         return APPLICATION_CONTEXT;
     }
+
 
     public static void main(String[] args) throws Exception {
         APPLICATION_CONTEXT = SpringApplication.run(DemoApplication.class, args);
@@ -81,8 +84,18 @@ public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableS
 
         // FIXME 不要开放给项目组后端之外的任何人使用 UnitAuto（强制登录鉴权）！！！如果不需要单元测试则移除相关代码或 unitauto.Log.DEBUG = false;
         // 上线生产环境前改为 false，可不输出 APIJSONORM 的日志 以及 SQLException 的原始(敏感)信息
-        unitauto.Log.DEBUG = Log.DEBUG = false;
-        APIJSONParser.IS_PRINT_BIG_LOG = false;
+        // 默认为false,如需要开启调试在配置文件中改为true
+        Boolean debug = Optional.ofNullable(
+                APPLICATION_CONTEXT.getEnvironment().getProperty("app.debug")
+        ).map(Boolean::valueOf).orElse(false);
+
+        Boolean isPrintBigLog = Optional.ofNullable(
+                APPLICATION_CONTEXT.getEnvironment().getProperty("app.isPrintBigLog")
+        ).map(Boolean::valueOf).orElse(false);
+
+        unitauto.Log.DEBUG = Log.DEBUG = debug;
+        APIJSONParser.IS_PRINT_BIG_LOG = isPrintBigLog;
+
 //        APIJSONSQLConfig.ENABLE_COLUMN_CONFIG = true; // apijson-framework 已集成字段插件 apijson-column，支持 !key 反选字段 和 字段名映射
         APIJSONApplication.init();
         APIJSONRouterApplication.init();
