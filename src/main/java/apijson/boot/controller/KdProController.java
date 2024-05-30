@@ -14,6 +14,7 @@ limitations under the License.*/
 
 package apijson.boot.controller;
 
+
 import apijson.RequestMethod;
 import apijson.*;
 import apijson.demo.*;
@@ -21,7 +22,6 @@ import apijson.demo.model.Privacy;
 import apijson.demo.model.User;
 import apijson.demo.model.Verify;
 import apijson.framework.BaseModel;
-import apijson.orm.JSONRequest;
 import apijson.orm.exception.*;
 import apijson.router.APIJSONRouterController;
 import com.alibaba.fastjson.JSONArray;
@@ -29,6 +29,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.fasterxml.jackson.databind.util.LRUMap;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -37,9 +40,6 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import unitauto.MethodUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.rmi.ServerException;
@@ -68,14 +68,13 @@ import static org.springframework.http.HttpHeaders.SET_COOKIE;
  * <br > 2.提高性能 - 无需URL encode和decode
  * <br > 3.调试方便 - 建议使用 APIAuto(http://apijson.cn/api) 或 Postman
  *
- * @author Lemo
- * n
+ * @author Lemon
  */
 @Service
 @RestController
 @RequestMapping("kdPro")
 public class KdProController extends APIJSONRouterController<Long> {  // APIJSONController<Long> {
-    private static final String TAG = "KdProController";
+    private static final String TAG = "DemoController";
 
     // 可以更方便地通过日志排查错误
     @Override
@@ -1621,7 +1620,7 @@ public class KdProController extends APIJSONRouterController<Long> {  // APIJSON
                         // Document <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                         JSONObject document = new JSONObject(true);
                         document.put("from", 2); // 0-测试工具，1-CI/CD，2-流量录制
-                        document.put("name", "[Record] " + new Date().toLocaleString());
+                        document.put("name", "[Record] " + new java.util.Date().toLocaleString());
                         document.put("type", reqType);
                         document.put("url", branch);
                         document.put("header", StringUtil.isEmpty(hs, true) ? null : hs.trim());
@@ -1658,7 +1657,7 @@ public class KdProController extends APIJSONRouterController<Long> {  // APIJSON
 
                     if (recordType > 0) {
                         random.put("from", 2); // 0-测试工具，1-CI/CD，2-流量录制
-                        random.put("name", "[Record] " + new Date().toLocaleString());
+                        random.put("name", "[Record] " + new java.util.Date().toLocaleString());
 
                         request.put("Random", random);
                         request.setTag("Random");
@@ -1790,26 +1789,33 @@ public class KdProController extends APIJSONRouterController<Long> {  // APIJSON
 //                }
 //            }
 
-            HttpStatus status = entity.getStatusCode();
-            httpServletResponse.setStatus(status.value(), status.getReasonPhrase());
+
+            HttpStatus status = (HttpStatus) entity.getStatusCode();
+            httpServletResponse.setStatus(status.value());
+            httpServletResponse.setHeader("Reason-Phrase", status.getReasonPhrase());
             rspBody = entity.getBody();
+
         } catch (Throwable e) {
             try {
                 if (e instanceof RestClientResponseException) {
                     RestClientResponseException hce = (RestClientResponseException) e;
                     String msg = hce.getStatusText();
                     rspBody = hce.getResponseBodyAsString();
-                    httpServletResponse.setStatus(hce.getRawStatusCode(), StringUtil.isEmpty(msg, true) ? e.getMessage() : msg);
+                    httpServletResponse.setStatus(hce.getRawStatusCode());
+                    httpServletResponse.setHeader("Reason-Phrase", StringUtil.isEmpty(msg, true) ? e.getMessage() : msg);
                 } else {
                     int code = CommonException.getCode(e);
-                    httpServletResponse.setStatus(code, e.getMessage());
+                    httpServletResponse.setStatus(code);
+                    httpServletResponse.setHeader("Reason-Phrase", e.getMessage());
                 }
             } catch (Throwable ex) {
                 int code = CommonException.getCode(e);
-                httpServletResponse.setStatus(code, e.getMessage());
+                httpServletResponse.setStatus(code);
+                httpServletResponse.setHeader("Reason-Phrase", e.getMessage());
                 // throw e;
             }
         }
+
 
         SESSION_MAP.put(session.getId(), session);
         httpServletResponse.setHeader(APIJSON_DELEGATE_ID, session.getId());

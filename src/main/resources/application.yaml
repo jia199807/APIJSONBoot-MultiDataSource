@@ -8,7 +8,7 @@ maxQueryPage: 10000
 
 app:
   #  开启debug
-  debug: true
+  debug: false
   #  打印大日志
   isPrintBigLog: false
 

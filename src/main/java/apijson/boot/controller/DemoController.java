@@ -14,6 +14,7 @@ limitations under the License.*/
 
 package apijson.boot.controller;
 
+
 import apijson.RequestMethod;
 import apijson.*;
 import apijson.demo.*;
@@ -21,7 +22,6 @@ import apijson.demo.model.Privacy;
 import apijson.demo.model.User;
 import apijson.demo.model.Verify;
 import apijson.framework.BaseModel;
-import apijson.orm.JSONRequest;
 import apijson.orm.exception.*;
 import apijson.router.APIJSONRouterController;
 import com.alibaba.fastjson.JSONArray;
@@ -29,6 +29,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.fasterxml.jackson.databind.util.LRUMap;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -37,9 +40,6 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import unitauto.MethodUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.rmi.ServerException;
@@ -1789,26 +1789,33 @@ public class DemoController extends APIJSONRouterController<Long> {  // APIJSONC
 //                }
 //            }
 
-            HttpStatus status = entity.getStatusCode();
-            httpServletResponse.setStatus(status.value(), status.getReasonPhrase());
+
+            HttpStatus status = (HttpStatus) entity.getStatusCode();
+            httpServletResponse.setStatus(status.value());
+            httpServletResponse.setHeader("Reason-Phrase", status.getReasonPhrase());
             rspBody = entity.getBody();
+
         } catch (Throwable e) {
             try {
                 if (e instanceof RestClientResponseException) {
                     RestClientResponseException hce = (RestClientResponseException) e;
                     String msg = hce.getStatusText();
                     rspBody = hce.getResponseBodyAsString();
-                    httpServletResponse.setStatus(hce.getRawStatusCode(), StringUtil.isEmpty(msg, true) ? e.getMessage() : msg);
+                    httpServletResponse.setStatus(hce.getRawStatusCode());
+                    httpServletResponse.setHeader("Reason-Phrase", StringUtil.isEmpty(msg, true) ? e.getMessage() : msg);
                 } else {
                     int code = CommonException.getCode(e);
-                    httpServletResponse.setStatus(code, e.getMessage());
+                    httpServletResponse.setStatus(code);
+                    httpServletResponse.setHeader("Reason-Phrase", e.getMessage());
                 }
             } catch (Throwable ex) {
                 int code = CommonException.getCode(e);
-                httpServletResponse.setStatus(code, e.getMessage());
+                httpServletResponse.setStatus(code);
+                httpServletResponse.setHeader("Reason-Phrase", e.getMessage());
                 // throw e;
             }
         }
+
 
         SESSION_MAP.put(session.getId(), session);
         httpServletResponse.setHeader(APIJSON_DELEGATE_ID, session.getId());

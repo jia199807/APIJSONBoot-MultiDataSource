@@ -14,6 +14,7 @@ limitations under the License.*/
 
 package apijson.demo;
 
+
 import apijson.RequestMethod;
 import apijson.StringUtil;
 import apijson.boot.controller.DemoController;
@@ -22,15 +23,14 @@ import apijson.framework.APIJSONObjectParser;
 import apijson.framework.APIJSONParser;
 import apijson.orm.SQLConfig;
 import com.alibaba.fastjson.JSONObject;
+import jakarta.servlet.http.HttpSession;
 import org.yaml.snakeyaml.Yaml;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-
 
 /**
  * 请求解析器
@@ -134,7 +134,9 @@ public class DemoParser extends APIJSONParser<Long> {
         } catch (Exception e) {
         }
 
-        return super.parseResponse(request);
+        JSONObject res = super.parseResponse(request);
+        return res;
+        // return super.parseResponse(request);
     }
 
     @Override
