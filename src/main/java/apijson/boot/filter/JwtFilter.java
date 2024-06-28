@@ -25,6 +25,9 @@ public class JwtFilter implements Filter {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Value("${zzkd.service.validate-token-filter-enabled:true}")
+    private boolean validateTokenFilterEnabled;
+
     // 从配置文件中读取 zzkd 服务的 IP 地址和端口
     @Value("${zzkd.service.ip}")
     private String zzkdServiceIp;
@@ -45,6 +48,20 @@ public class JwtFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+        if (!validateTokenFilterEnabled) {
+            // 如果验证令牌过滤器未启用，直接放行
+            chain.doFilter(request, response);
+            return;
+        }
+
+        // 检查请求的来源 IP 地址
+        String remoteAddr = httpRequest.getRemoteAddr();
+        if (remoteAddr.equals(zzkdServiceIp)) {
+            // 如果请求来自 zzkd 服务，直接放行
+            chain.doFilter(request, response);
+            return;
+        }
 
         // 从请求头中获取 Authorization 头
         String token = httpRequest.getHeader("Authorization");
