@@ -14,6 +14,6 @@ app:
 
 zzkd:
   service:
-    validate-token-filter-enabled: false
+    validate-token-filter-enabled: true
     ip: 192.168.21.14
     port: 8081

@@ -13,13 +13,18 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@WebFilter(urlPatterns = "/*")
+/**
+ * JWT过滤器，用于令牌验证和授权。
+ */
 @Component
+@WebFilter(urlPatterns = "/*")
 public class JwtFilter implements Filter {
 
     @Autowired
@@ -28,7 +33,6 @@ public class JwtFilter implements Filter {
     @Value("${zzkd.service.validate-token-filter-enabled:true}")
     private boolean validateTokenFilterEnabled;
 
-    // 从配置文件中读取 zzkd 服务的 IP 地址和端口
     @Value("${zzkd.service.ip}")
     private String zzkdServiceIp;
 
@@ -40,7 +44,7 @@ public class JwtFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // 初始化操作，如果需要
+        // 初始化操作，如果需要的话
     }
 
     @Override
@@ -50,18 +54,22 @@ public class JwtFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         if (!validateTokenFilterEnabled) {
-            // 如果验证令牌过滤器未启用，直接放行
+            // 如果令牌验证过滤器未启用，直接放行
             chain.doFilter(request, response);
             return;
         }
 
-        // 检查请求的来源 IP 地址
+        // 解析 zzkd 服务的IP地址
+        String resolvedIp = resolveContainerIpOrKeepIp(zzkdServiceIp);
         String remoteAddr = httpRequest.getRemoteAddr();
-        if (remoteAddr.equals(zzkdServiceIp)) {
-            // 如果请求来自 zzkd 服务，直接放行
+
+        if (remoteAddr.equals(resolvedIp)) {
+            // 如果请求来自 zzkd 服务本身，直接放行
+            System.out.println("请求来自 zzkd 服务本身，放行请求");
             chain.doFilter(request, response);
             return;
         }
+
 
         // 从请求头中获取 Authorization 头
         String token = httpRequest.getHeader("Authorization");
@@ -88,6 +96,7 @@ public class JwtFilter implements Filter {
             }
         }
 
+        // 准备调用 zzkd 服务的验证接口的 URL
         String zzkdServiceUrl = "http://" + zzkdServiceIp + ":" + zzkdServicePort + "/api/v1/auth/validate";
 
         try {
@@ -107,8 +116,15 @@ public class JwtFilter implements Filter {
                     Map.class);
 
             Map<String, Object> responseBody = zzkdServiceResponse.getBody();
-            // 如果响应为空或令牌无效，返回 401 错误
-            if (responseBody == null || !Boolean.TRUE.equals(responseBody.get("isValid"))) {
+            // 如果响应为空，返回 500 错误
+            if (responseBody == null) {
+                httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                httpResponse.getWriter().write("Failed to validate token: response is null");
+                return;
+            }
+
+            // 如果令牌无效，返回 401 错误
+            if (!Boolean.TRUE.equals(responseBody.get("isValid"))) {
                 httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
                 httpResponse.getWriter().write("Invalid token");
                 return;
@@ -137,7 +153,7 @@ public class JwtFilter implements Filter {
 
     @Override
     public void destroy() {
-        // 清理操作，如果需要
+        // 销毁操作，如果需要的话
     }
 
     // 定时任务，每小时清理过期令牌
@@ -145,5 +161,20 @@ public class JwtFilter implements Filter {
     public void cleanExpiredTokens() {
         Date now = new Date();
         tokenStore.entrySet().removeIf(entry -> entry.getValue().before(now));
+    }
+
+    /**
+     * 解析容器名或者直接使用IP地址。
+     *
+     * @param ipOrContainerName IP地址或者容器名
+     * @return 解析后的IP地址
+     */
+    private String resolveContainerIpOrKeepIp(String ipOrContainerName) {
+        try {
+            InetAddress address = InetAddress.getByName(ipOrContainerName);
+            return address.getHostAddress();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException("解析容器 IP 失败：" + ipOrContainerName, e);
+        }
     }
 }
