@@ -1,6 +1,5 @@
 package apijson.boot.filter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,8 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebFilter(urlPatterns = "/*")
 public class JwtFilter implements Filter {
 
-    @Autowired
-    private RestTemplate restTemplate;
+
+    private final RestTemplate restTemplate;
 
     @Value("${zzkd.service.validate-token-filter-enabled:true}")
     private boolean validateTokenFilterEnabled;
@@ -41,6 +40,10 @@ public class JwtFilter implements Filter {
 
     // 存储有效令牌及其到期时间
     private final ConcurrentHashMap<String, Date> tokenStore = new ConcurrentHashMap<>();
+
+    public JwtFilter() {
+        this.restTemplate = new RestTemplate();
+    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
