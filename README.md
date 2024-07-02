@@ -1,6 +1,6 @@
 # APIJSONBoot
 
-APIJSON + SpringBoot 接近成品的 Demo
+APIJSON + SpringBoot
 
 ### 运行
 
@@ -11,7 +11,7 @@ APIJSON + SpringBoot 接近成品的 Demo
 -e MYSQL_USERNAME=root \
 -e MYSQL_PASSWORD=root \
 
-其他数据源在db库，data_source表配置
+其他数据源在db库，**data_source表配置**
 例如：
 INSERT INTO `db`.`data_source` (`pool_name`, `driver_class_name`, `url`, `username`, `password`)
 VALUES ('kd_pro_show', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://192.168.21.191:
@@ -19,7 +19,15 @@ VALUES ('kd_pro_show', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://192.168.21.191:
 
 右键 DemoApplication > Run As > Java Application
 
-### 自定义 API 的说明（非 APIJSON 万能 API）
+打包项目
+使用 Fat JAR 打包
+mvn clean package -Pfat-jar
 
+使用普通 JAR 和依赖目录打包
+mvn clean package -Pregular-jar
+运行项目
+运行 Fat JAR
+java -jar apijson-boot-multi-datasource-6.3.0.jar
 
-```
+运行普通 JAR 和依赖目录
+java -cp lib/*:apijson-boot-multi-datasource-6.3.0.jar apijson.boot.DemoApplication
