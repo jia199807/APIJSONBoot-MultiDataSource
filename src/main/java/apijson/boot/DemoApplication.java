@@ -86,11 +86,11 @@ public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableS
         // 上线生产环境前改为 false，可不输出 APIJSONORM 的日志 以及 SQLException 的原始(敏感)信息
         // 默认为false,如需要开启调试在配置文件中改为true
         Boolean debug = Optional.ofNullable(
-                APPLICATION_CONTEXT.getEnvironment().getProperty("app.debug")
+                APPLICATION_CONTEXT.getEnvironment().getProperty("apijson.debug")
         ).map(Boolean::valueOf).orElse(false);
 
         Boolean isPrintBigLog = Optional.ofNullable(
-                APPLICATION_CONTEXT.getEnvironment().getProperty("app.isPrintBigLog")
+                APPLICATION_CONTEXT.getEnvironment().getProperty("apijson.isPrintBigLog")
         ).map(Boolean::valueOf).orElse(false);
 
         unitauto.Log.DEBUG = Log.DEBUG = debug;
