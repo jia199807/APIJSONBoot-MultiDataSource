@@ -18,39 +18,36 @@ package apijson.demo;
 import apijson.RequestMethod;
 import apijson.StringUtil;
 import apijson.boot.controller.DemoController;
+import apijson.boot.controller.config.Config;
 import apijson.demo.model.Privacy;
 import apijson.framework.APIJSONObjectParser;
 import apijson.framework.APIJSONParser;
 import apijson.orm.SQLConfig;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.http.HttpSession;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 请求解析器
- * 具体见 https://github.com/Tencent/APIJSON/issues/38
+ * 具体见 <a href="https://github.com/Tencent/APIJSON/issues/38">...</a>
  *
  * @author Lemon
  */
 public class DemoParser extends APIJSONParser<Long> {
 
-    Map<String, Object> yamlData;
-
-    {
-        try {
-            yamlData = System.getenv("CONFIG_LOCATION") == null ?
-                    new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml")) :
-                    new Yaml().load(Files.newInputStream(Paths.get(System.getenv("CONFIG_LOCATION"))));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    // Map<String, Object> yamlData;
+    //
+    // {
+    //     try {
+    //         yamlData = System.getenv("CONFIG_LOCATION") == null ?
+    //                 new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml")) :
+    //                 new Yaml().load(Files.newInputStream(Paths.get(System.getenv("CONFIG_LOCATION"))));
+    //     } catch (IOException e) {
+    //         throw new RuntimeException(e);
+    //     }
+    // }
 
 
 
@@ -83,12 +80,11 @@ public class DemoParser extends APIJSONParser<Long> {
     }
 
     // 最大查询数量
-    private int maxQueryCount = (int) yamlData.get("maxQueryCount");
+    private int maxQueryCount = Config.maxQueryPage;
     // 最大更新数量
-    private int maxUpdateCount = (int) yamlData.get("maxUpdateCount");
+    private final int maxUpdateCount = Config.maxUpdateCount;
     // 最大分页数量
-    private int maxQueryPage = (int) yamlData.get("maxQueryPage");
-
+    private final int maxQueryPage = Config.maxQueryCount;
     // // 最大查询数量
     // private int maxQueryCount = 2000;
     // // 最大更新数量
@@ -131,12 +127,10 @@ public class DemoParser extends APIJSONParser<Long> {
                 request.remove("key");
                 maxQueryCount = 1000;
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
-        JSONObject res = super.parseResponse(request);
-        return res;
-        // return super.parseResponse(request);
+        return super.parseResponse(request);
     }
 
     @Override
@@ -168,8 +162,7 @@ public class DemoParser extends APIJSONParser<Long> {
 
     @Override
     public JSONObject executeSQL(SQLConfig<Long> config, boolean isSubquery) throws Exception {
-        if (asDBAccount && config instanceof DemoSQLConfig) {
-            DemoSQLConfig cfg = (DemoSQLConfig) config;
+        if (asDBAccount && config instanceof DemoSQLConfig cfg) {
             if (StringUtil.isEmpty(cfg.getDBAccount())) {
                 cfg.setDBAccount(dbAccount);
             }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Config {
+
     // MySQL数据库账号
     public static String dbAccount;
 
@@ -19,6 +20,15 @@ public class Config {
 
     // MySQL数据库版本号
     public static String dbVersion;
+
+    // 最大查询数量
+    public static int maxQueryCount;
+
+    // 最大更新数量
+    public static int maxUpdateCount;
+
+    // 最大分页数量
+    public static int maxQueryPage;
 
     /**
      * 设置MySQL数据库账号。
@@ -58,5 +68,35 @@ public class Config {
     @Value("${mysql.version}")
     public void setDbVersion(String version) {
         Config.dbVersion = version;
+    }
+
+    /**
+     * 设置最大查询数量。
+     *
+     * @param maxQueryCount 最大查询数量
+     */
+    @Value("${apijson.maxQueryCount}")
+    public void setMaxQueryCount(int maxQueryCount) {
+        Config.maxQueryCount = maxQueryCount;
+    }
+
+    /**
+     * 设置最大更新数量。
+     *
+     * @param maxUpdateCount 最大更新数量
+     */
+    @Value("${apijson.maxUpdateCount}")
+    public void setMaxUpdateCount(int maxUpdateCount) {
+        Config.maxUpdateCount = maxUpdateCount;
+    }
+
+    /**
+     * 设置最大分页数量。
+     *
+     * @param maxQueryPage 最大分页数量
+     */
+    @Value("${apijson.maxQueryPage}")
+    public void setMaxQueryPage(int maxQueryPage) {
+        Config.maxQueryPage = maxQueryPage;
     }
 }
