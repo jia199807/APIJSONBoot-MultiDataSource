@@ -37,21 +37,6 @@ import java.util.Map;
  */
 public class DemoParser extends APIJSONParser<Long> {
 
-    // Map<String, Object> yamlData;
-    //
-    // {
-    //     try {
-    //         yamlData = System.getenv("CONFIG_LOCATION") == null ?
-    //                 new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml")) :
-    //                 new Yaml().load(Files.newInputStream(Paths.get(System.getenv("CONFIG_LOCATION"))));
-    //     } catch (IOException e) {
-    //         throw new RuntimeException(e);
-    //     }
-    // }
-
-
-
-
     public static final Map<String, HttpSession> KEY_MAP;
 
     static {
@@ -85,12 +70,6 @@ public class DemoParser extends APIJSONParser<Long> {
     private final int maxUpdateCount = Config.maxUpdateCount;
     // 最大分页数量
     private final int maxQueryPage = Config.maxQueryCount;
-    // // 最大查询数量
-    // private int maxQueryCount = 2000;
-    // // 最大更新数量
-    // private int maxUpdateCount = 2000;
-    // // 最大分页数量
-    // private int maxQueryPage = 2000;
 
     //	可重写来设置最大查询数量
     @Override

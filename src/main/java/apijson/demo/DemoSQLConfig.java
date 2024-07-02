@@ -33,22 +33,12 @@ import static apijson.framework.APIJSONConstant.*;
  * SQL配置
  * TiDB 用法和 MySQL 一致
  * 具体见详细的说明文档 C.开发说明 C-1-1.修改数据库链接
- * https://github.com/Tencent/APIJSON/blob/master/%E8%AF%A6%E7%BB%86%E7%9A%84%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#c-1-1%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E9%93%BE%E6%8E%A5
+ * <a href="https://github.com/Tencent/APIJSON/blob/master/%E8%AF%A6%E7%BB%86%E7%9A%84%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#c-1-1%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E9%93%BE%E6%8E%A5">...</a>
  *
  * @author Lemon
  */
 // @PropertySource("classpath:application.yaml")
 public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
-
-    // Map<String, Object> yamlData = System.getenv("CONFIG_LOCATION") == null ?
-    //         new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml")) :
-    //         new Yaml().load(Files.newInputStream(Paths.get(System.getenv("CONFIG_LOCATION"))));
-    // String mysqlVersion = (String) yamlData.get("version");
-    // String mysqlUrl = (String) yamlData.get("url");
-    // String mysqlUsername = (String) yamlData.get("username");
-    // String mysqlPassword = (String) yamlData.get("password");
-
-
 
     public DemoSQLConfig() throws IOException {
         super();
