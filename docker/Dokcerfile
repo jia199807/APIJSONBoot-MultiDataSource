@@ -1,20 +1,6 @@
 # 该镜像需要依赖的基础镜像
-FROM openjdk:11
-# 设置工作目录
-#WORKDIR /app
-# 设置时区为Asia/Shanghai（你可以根据需要修改时区）
+FROM openjdk:17
+# 设置时区为Asia/Shanghai
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone
-# 替换软件源地址为阿里云镜像
-RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
-# 安装nmap
-RUN apt-get update && apt-get install -y nmap
-# 声明服务运行在8080端口
-#EXPOSE 8080
-## 指定docker容器启动时运行jar包-
-#ENTRYPOINT ["java", "-jar","apijson-boot-multi-datasource-6.3.0.jar"]
 # 指定维护者的名字
-MAINTAINER tianyang.jia
-
-
-
-
+LABEL maintainer="tianyang.jia"
