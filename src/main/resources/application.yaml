@@ -1,19 +1,32 @@
-version: 8.3.0
-url: jdbc:mysql://192.168.21.125:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
-username: root
-password: root
+# 主数据源的配置文件
+mysql:
+  # MySQL数据库版本号
+  version: 8.3.0
+  # MySQL数据库连接URL
+  url: jdbc:mysql://192.168.21.125:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+  # MySQL数据库账号
+  username: root
+  # MySQL数据库密码
+  password: root
+
+# APIJSON配置
 maxQueryCount: 2000
 maxUpdateCount: 2000
 maxQueryPage: 10000
 
+# 应用配置
 app:
-  #  开启debug
+  # 是否开启debug模式
   debug: false
-  #  打印大日志
+  # 是否打印大日志
   isPrintBigLog: false
 
+# ZZKD配置
 zzkd:
   service:
+    # 是否启用token验证过滤器
     validate-token-filter-enabled: true
+    # ZZKD服务IP地址
     ip: 192.168.21.14
+    # ZZKD服务端口号
     port: 8081

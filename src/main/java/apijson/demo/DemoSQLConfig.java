@@ -16,18 +16,15 @@ package apijson.demo;
 
 import apijson.RequestMethod;
 import apijson.StringUtil;
+import apijson.boot.controller.config.Config;
 import apijson.framework.APIJSONSQLConfig;
 import apijson.orm.AbstractSQLConfig;
 import apijson.orm.Join;
 import apijson.orm.Join.On;
 import com.alibaba.fastjson.annotation.JSONField;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 import static apijson.framework.APIJSONConstant.*;
 
@@ -42,13 +39,16 @@ import static apijson.framework.APIJSONConstant.*;
  */
 // @PropertySource("classpath:application.yaml")
 public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
-    Map<String, Object> yamlData = System.getenv("CONFIG_LOCATION") == null ?
-            new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml")) :
-            new Yaml().load(Files.newInputStream(Paths.get(System.getenv("CONFIG_LOCATION"))));
-    String mysqlVersion = (String) yamlData.get("version");
-    String mysqlUrl = (String) yamlData.get("url");
-    String mysqlUsername = (String) yamlData.get("username");
-    String mysqlPassword = (String) yamlData.get("password");
+
+    // Map<String, Object> yamlData = System.getenv("CONFIG_LOCATION") == null ?
+    //         new Yaml().load(DemoSQLConfig.class.getClassLoader().getResourceAsStream("application.yaml")) :
+    //         new Yaml().load(Files.newInputStream(Paths.get(System.getenv("CONFIG_LOCATION"))));
+    // String mysqlVersion = (String) yamlData.get("version");
+    // String mysqlUrl = (String) yamlData.get("url");
+    // String mysqlUsername = (String) yamlData.get("username");
+    // String mysqlPassword = (String) yamlData.get("password");
+
+
 
     public DemoSQLConfig() throws IOException {
         super();
@@ -61,6 +61,7 @@ public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
     static {
         DEFAULT_DATABASE = DATABASE_MYSQL;  // TODO 默认数据库类型，改成你自己的。TiDB, MariaDB, OceanBase 这类兼容 MySQL 的可当做 MySQL 使用
         DEFAULT_SCHEMA = "sys";  // TODO 默认数据库名/模式，改成你自己的，默认情况是 MySQL: sys, PostgreSQL: sys, SQL Server: dbo, Oracle:
+
 
         // 表名和数据库不一致的，需要配置映射关系。只使用 APIJSONORM 时才需要；
         // 这个 Demo 用了 apijson-framework 且调用了 APIJSONApplication.init 则不需要
@@ -129,7 +130,8 @@ public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
     @Override
     public String getDBVersion() {
         if (isMySQL()) {
-            return mysqlVersion;
+            return Config.dbVersion;
+            // return mysqlVersion;
             // return "5.7.22"; //
 //            return "8.0.11"; //TODO 改成你自己的 MySQL 或 PostgreSQL 数据库版本号 //MYSQL 8 和 7 使用的 JDBC 配置不一样
         }
@@ -174,7 +176,7 @@ public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
         if (isMySQL()) {
             // 这个是 MySQL 8.0 及以上，要加 useSSL=false  return "jdbc:mysql://localhost:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8";
             // 以下是 MySQL 5.7 及以下
-            return mysqlUrl;
+            return Config.dbUrl;
             // return "jdbc:mysql://192.168.19.164:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8"; //TODO 改成你自己的，TiDB 可以当成 MySQL 使用，默认端口为 4000
         }
         if (isPostgreSQL()) {
@@ -244,7 +246,7 @@ public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
         }
 
         if (isMySQL()) {
-            return mysqlUsername;
+            return Config.dbAccount;
             // return "zzjz";  //TODO 改成你自己的
         }
         if (isPostgreSQL()) {
@@ -290,7 +292,7 @@ public class DemoSQLConfig extends APIJSONSQLConfig<Long> {
         }
 
         if (isMySQL()) {
-            return mysqlPassword;
+            return Config.dbPassword;
             // return "wJ6tAgSqJidznI98esvA";  //TODO 改成你自己的，TiDB 可以当成 MySQL 使用， 默认密码为空字符串 ""
         }
         if (isPostgreSQL()) {
