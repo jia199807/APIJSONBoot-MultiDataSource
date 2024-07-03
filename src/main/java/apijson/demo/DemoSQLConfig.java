@@ -16,7 +16,7 @@ package apijson.demo;
 
 import apijson.RequestMethod;
 import apijson.StringUtil;
-import apijson.boot.controller.config.Config;
+import apijson.boot.config.Config;
 import apijson.framework.APIJSONSQLConfig;
 import apijson.orm.AbstractSQLConfig;
 import apijson.orm.Join;

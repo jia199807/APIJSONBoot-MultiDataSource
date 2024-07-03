@@ -1,4 +1,4 @@
-package apijson.boot.controller.config;
+package apijson.boot.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

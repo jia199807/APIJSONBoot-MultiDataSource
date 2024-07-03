@@ -1,4 +1,4 @@
-package apijson.boot.controller.filter;
+package apijson.boot.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
