@@ -258,9 +258,9 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <mainClass>apijson.boot.DemoApplication</mainClass> <!-- 修改为你的主类 -->
-                        </configuration>
+                        <!--<configuration>-->
+                        <!--    <mainClass>apijson.boot.DemoApplication</mainClass> &lt;!&ndash; 修改为你的主类 &ndash;&gt;-->
+                        <!--</configuration>-->
                     </plugin>
                 </plugins>
             </build>
