@@ -3,6 +3,7 @@ package apijson.boot.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -11,14 +12,69 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+// 自定义HttpServletRequestWrapper
+class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
+    private final byte[] cachedBody;
+
+    public CachedBodyHttpServletRequest(HttpServletRequest request) throws IOException {
+        super(request);
+        InputStream requestInputStream = request.getInputStream();
+        this.cachedBody = requestInputStream.readAllBytes();
+    }
+
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        return new CachedBodyServletInputStream(this.cachedBody);
+    }
+
+    @Override
+    public BufferedReader getReader() throws IOException {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.cachedBody);
+        return new BufferedReader(new InputStreamReader(byteArrayInputStream, StandardCharsets.UTF_8));
+    }
+
+    private static class CachedBodyServletInputStream extends ServletInputStream {
+        private final InputStream cachedBodyInputStream;
+
+        public CachedBodyServletInputStream(byte[] cachedBody) {
+            this.cachedBodyInputStream = new ByteArrayInputStream(cachedBody);
+        }
+
+        @Override
+        public int read() throws IOException {
+            return this.cachedBodyInputStream.read();
+        }
+
+        @Override
+        public boolean isFinished() {
+            try {
+                return cachedBodyInputStream.available() == 0;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public boolean isReady() {
+            return true;
+        }
+
+        @Override
+        public void setReadListener(ReadListener readListener) {
+            // No-op
+        }
+    }
+}
 
 /**
  * JWT过滤器，用于令牌验证和授权。
@@ -65,13 +121,22 @@ public class JwtFilter implements Filter {
             return;
         }
 
+        // 包装请求以缓存请求体
+        CachedBodyHttpServletRequest cachedRequest = new CachedBodyHttpServletRequest(httpRequest);
+
+        // 放行规则1: URI中包含 "get" 且请求体中包含 "SysConfig"
+        if (cachedRequest.getRequestURI().contains("get") && requestContains(cachedRequest, "SysConfig")) {
+            chain.doFilter(cachedRequest, response);
+            return;
+        }
+
         // 解析 zzkd 服务的IP地址
         String resolvedIp = resolveContainerIpOrKeepIp(zzkdServiceIp);
         String remoteAddr = httpRequest.getRemoteAddr();
 
         if (remoteAddr.equals(resolvedIp)) {
             // 如果请求来自 zzkd 服务，直接放行
-            chain.doFilter(request, response);
+            chain.doFilter(cachedRequest, response);
             return;
         }
 
@@ -92,7 +157,7 @@ public class JwtFilter implements Filter {
             Date expirationDate = tokenStore.get(token);
             if (expirationDate.after(new Date())) {
                 // 如果令牌有效，继续处理请求
-                chain.doFilter(request, response);
+                chain.doFilter(cachedRequest, response);
                 return;
             } else {
                 // 如果令牌过期，从内存中删除
@@ -167,7 +232,7 @@ public class JwtFilter implements Filter {
         }
 
         // 如果令牌有效，继续处理请求
-        chain.doFilter(request, response);
+        chain.doFilter(cachedRequest, response);
     }
 
     @Override
@@ -195,5 +260,22 @@ public class JwtFilter implements Filter {
         } catch (UnknownHostException e) {
             throw new RuntimeException("解析容器 IP 失败：" + ipOrContainerName, e);
         }
+    }
+
+    /**
+     * 检查请求体中是否包含指定字符串。
+     *
+     * @param request HttpServletRequest 对象
+     * @param keyword 需要检查的字符串
+     * @return 如果请求体中包含指定字符串，则返回 true；否则返回 false
+     */
+    private boolean requestContains(HttpServletRequest request, String keyword) throws IOException {
+        StringBuilder requestBody = new StringBuilder();
+        BufferedReader reader = request.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            requestBody.append(line);
+        }
+        return requestBody.toString().contains(keyword);
     }
 }
