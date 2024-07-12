@@ -130,6 +130,12 @@ public class JwtFilter implements Filter {
             return;
         }
 
+        // 放行规则2: URI中包含 "post" 且请求体中包含 "Log"
+        if (cachedRequest.getRequestURI().contains("post") && requestContains(cachedRequest, "Log")) {
+            chain.doFilter(cachedRequest, response);
+            return;
+        }
+
         // 解析 zzkd 服务的IP地址
         String resolvedIp = resolveContainerIpOrKeepIp(zzkdServiceIp);
         String remoteAddr = httpRequest.getRemoteAddr();
