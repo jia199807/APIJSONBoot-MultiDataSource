@@ -13,7 +13,7 @@ mysql:
 
 apijson:
   # 是否开启debug模式
-  debug: false
+  debug: true
   # 是否打印大日志
   isPrintBigLog: false
 
@@ -30,3 +30,14 @@ zzkd:
     ip: 192.168.21.14
     # ZZKD服务端口号
     port: 8081
+
+#spring:
+#  application:
+#    name: apijson
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.21.11:8848
+#        namespace: 61f3e958-a301-4c54-b49d-1a7e7ea8b313
+
+
