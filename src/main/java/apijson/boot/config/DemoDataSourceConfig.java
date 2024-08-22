@@ -17,10 +17,12 @@ package apijson.boot.config;
 import apijson.demo.DemoSQLConfig;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import java.util.HashMap;
@@ -98,28 +100,33 @@ public class DemoDataSourceConfig {
 
     // 初始化数据库操作
     @Bean
-    public Boolean initDatabase() {
+    @ConditionalOnMissingBean
+    public DataSourceInitializer dataSourceInitializer() {
+        DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDataSource(druidDataSource());
+
         // 检查表是否存在
         String checkTableExistsSql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = 'data_source'";
         Integer count = jdbcTemplate.queryForObject(checkTableExistsSql, Integer.class);
 
-        // 如果表不存在，则执行SQL文件
+        // 只有在表不存在时才执行SQL脚本
         if (count == null || count == 0) {
             System.out.println("相关表不存在，正在执行sys.sql");
 
-            ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-            databasePopulator.addScript(new ClassPathResource("sys.sql"));
-            databasePopulator.execute(druidDataSource());
+            ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+            populator.addScript(new ClassPathResource("sys.sql"));
+            initializer.setDatabasePopulator(populator);
         } else {
             System.out.println("相关表已存在，跳过sys.sql");
         }
-        // 返回 true 表示初始化成功
-        return true;
+
+        initializer.setEnabled(true); // 启用初始化器
+        return initializer;
     }
 
     // 从数据库加载数据源
     @Bean
-    @DependsOn("initDatabase")
+    @DependsOn("dataSourceInitializer")
     public Map<String, DruidDataSource> loadDataSource() {
         Map<String, DruidDataSource> map = new HashMap<>();
         // 使用 JdbcTemplate 查询数据源配置
