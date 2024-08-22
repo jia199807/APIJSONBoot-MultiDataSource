@@ -3,11 +3,20 @@ mysql:
   # MySQL数据库版本号
   version: 8.3.0
   # MySQL数据库连接URL
-  url: jdbc:mysql://192.168.21.125:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+  url: jdbc:mysql://192.168.21.1:3306/sys?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
   # MySQL数据库账号
   username: root
   # MySQL数据库密码
   password: root
+
+spring:
+  datasource:
+    druid:
+      url: ${mysql.url}
+      username: ${mysql.username}
+      password: ${mysql.password}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
 
 # APIJSON配置
 
