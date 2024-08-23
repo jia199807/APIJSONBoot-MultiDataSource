@@ -91,7 +91,7 @@ java -jar apijson-boot-multi-datasource-7.0.0.jar
 #### 运行普通 JAR 和依赖目录
 
 ```sh
-java -cp lib/*:apijson-boot-multi-datasource-7.0.0.jar apijson.boot.DemoApplication
+java -cp lib/*:apijson-boot-multi-datasource-7.0.0.jar apijson.APIJSONApplication
 ```
 
 ### 打包与部署

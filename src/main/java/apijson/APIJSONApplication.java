@@ -12,14 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
 
-package apijson.boot;
+package apijson;
 
-import apijson.Log;
-import apijson.NotNull;
-import apijson.StringUtil;
 import apijson.boot.controller.DemoController;
 import apijson.demo.*;
-import apijson.framework.APIJSONApplication;
 import apijson.framework.APIJSONCreator;
 import apijson.framework.APIJSONParser;
 import apijson.orm.*;
@@ -61,7 +57,7 @@ import java.util.regex.Pattern;
  */
 @Configuration
 @SpringBootApplication
-public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
+public class APIJSONApplication implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
     private static final String TAG = "DemoApplication";
 
 
@@ -74,7 +70,7 @@ public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableS
 
 
     public static void main(String[] args) throws Exception {
-        APPLICATION_CONTEXT = SpringApplication.run(DemoApplication.class, args);
+        APPLICATION_CONTEXT = SpringApplication.run(APIJSONApplication.class, args);
 
         try {
             // DemoSQLExecutor.REDIS_TEMPLATE.discard();
@@ -97,7 +93,7 @@ public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableS
         APIJSONParser.IS_PRINT_BIG_LOG = isPrintBigLog;
 
 //        APIJSONSQLConfig.ENABLE_COLUMN_CONFIG = true; // apijson-framework 已集成字段插件 apijson-column，支持 !key 反选字段 和 字段名映射
-        APIJSONApplication.init();
+        apijson.framework.APIJSONApplication.init();
         APIJSONRouterApplication.init();
         System.out.println("\n\n<<<<<<<<< 本 Demo 在 resources/static 内置了 APIAuto，Chrome/Firefox 打开 http://localhost:8080 即可调试(端口号根据项目配置而定) ^_^ >>>>>>>>>\n");
     }
@@ -218,7 +214,7 @@ public class DemoApplication implements WebServerFactoryCustomizer<ConfigurableS
         COMPILE_MAP.put("ID_CARD", StringUtil.PATTERN_ID_CARD);
 
         // 使用本项目的自定义处理类
-        APIJSONApplication.DEFAULT_APIJSON_CREATOR = new APIJSONCreator<Long>() {
+        apijson.framework.APIJSONApplication.DEFAULT_APIJSON_CREATOR = new APIJSONCreator<Long>() {
 
             @Override
             public Parser<Long> createParser() {

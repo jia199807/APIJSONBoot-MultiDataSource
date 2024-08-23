@@ -15,7 +15,6 @@ limitations under the License.*/
 package apijson.demo;
 
 import apijson.*;
-import apijson.boot.DemoApplication;
 import apijson.framework.APIJSONSQLExecutor;
 import apijson.orm.SQLConfig;
 import com.alibaba.druid.pool.DruidDataSource;
@@ -146,12 +145,12 @@ public class DemoSQLExecutor extends APIJSONSQLExecutor<Long> {
                 DataSource ds;
                 switch (datasource) {
                     case "HIKARICP":
-                        ds = DemoApplication.getApplicationContext().getBean(HikariDataSource.class);
+                        ds = APIJSONApplication.getApplicationContext().getBean(HikariDataSource.class);
                         // 另一种方式是 DemoDataSourceConfig 初始化获取到 DataSource 后给静态变量 DATA_SOURCE_HIKARICP 赋值： ds = DemoDataSourceConfig.DATA_SOURCE_HIKARICP.getConnection();
                         break;
                     default:
-                        Map<String, DruidDataSource> dsMap = DemoApplication.getApplicationContext().getBeansOfType(DruidDataSource.class);
-                        Map<String, DruidDataSource> loadDataSource = (Map<String, DruidDataSource>) DemoApplication.getApplicationContext().getBean("loadDataSource");
+                        Map<String, DruidDataSource> dsMap = APIJSONApplication.getApplicationContext().getBeansOfType(DruidDataSource.class);
+                        Map<String, DruidDataSource> loadDataSource = (Map<String, DruidDataSource>) APIJSONApplication.getApplicationContext().getBean("loadDataSource");
                         dsMap.putAll(loadDataSource);
 
                         // TODO 将switch中加入动态读取的数据源
