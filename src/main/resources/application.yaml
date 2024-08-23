@@ -34,7 +34,7 @@ apijson:
 zzkd:
   service:
     # 是否启用token验证过滤器
-    validate-token-filter-enabled: true
+    validate-token-filter-enabled: false
     # ZZKD服务IP地址
     ip: 192.168.21.14
     # ZZKD服务端口号
