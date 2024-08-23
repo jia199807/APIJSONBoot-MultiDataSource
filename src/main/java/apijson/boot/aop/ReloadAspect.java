@@ -22,7 +22,7 @@ public class ReloadAspect {
 
     private void invokeReload(JSONObject res) throws Throwable {
         // 调用 reload 方法，并将结果合并到原始返回的 JSON 对象中
-        JSONObject reloadResult = tableController.reload();
+        JSONObject reloadResult = tableController.reloadTable();
         res.put("reload", reloadResult);
     }
 }

@@ -85,7 +85,7 @@ public class TableController {
 
     @ResponseBody
     @GetMapping("reload")
-    public JSONObject reload() throws ServerException {
+    public JSONObject reloadTable() throws ServerException {
         JSONObject jsonObject = new JSONObject();
 
         // 调用 DemoVerifier.initAccess 并将返回的 JSONObject 放入 jsonObject 中
