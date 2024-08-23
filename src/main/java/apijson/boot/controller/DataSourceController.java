@@ -1,8 +1,13 @@
 package apijson.boot.controller;
 
+import apijson.APIJSONApplication;
 import apijson.JSON;
 import apijson.demo.DemoParser;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -100,13 +105,14 @@ public class DataSourceController {
     public JSONObject getAllDataSource() {
         String jsonString = """
                 {
-                    "Datasource[]": {
+                    "[]": {
                         "query": 2,
-                        "Datasource": {
+                        "total": 0,
+                        "DataSource": {
 
                         }
                     },
-                    "info@": "/Datasource[]/info"
+                    "info@": "/[]/info"
                 }""";
         JSONObject jsonObject = JSON.parseObject(jsonString);
         return new DemoParser(GETS, false).parseResponse(jsonObject);
@@ -144,5 +150,27 @@ public class DataSourceController {
         } else {
             return "数据源删除失败，找不到对应的ID";
         }
+    }
+
+    @GetMapping("/reload")
+    public JSONObject reloadDataSource() {
+        JSONObject response = new JSONObject();
+        try {
+            ApplicationContext applicationContext = APIJSONApplication.getApplicationContext();
+            DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
+            String beanName = "loadDataSource";
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+
+            // 先移除现有的Bean定义
+            ((BeanDefinitionRegistry) beanFactory).removeBeanDefinition(beanName);
+
+            // 重新注册Bean定义
+            ((BeanDefinitionRegistry) beanFactory).registerBeanDefinition(beanName, beanDefinition);
+
+            response.put("initDataSource", true);
+        } catch (Exception e) {
+            response.put("initDataSource", false);
+        }
+        return response;
     }
 }
