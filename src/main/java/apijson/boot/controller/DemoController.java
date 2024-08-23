@@ -713,6 +713,7 @@ public class DemoController extends APIJSONRouterController<Long> {  // APIJSONC
                         new Privacy().setPhone(phone)
                 )
         );
+        // 此处存在登录报错
         if (JSONResponse.isSuccess(phoneResponse) == false) {
             return DemoParser.newResult(phoneResponse.getIntValue(JSONResponse.KEY_CODE), phoneResponse.getString(JSONResponse.KEY_MSG));
         }
