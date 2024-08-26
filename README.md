@@ -32,6 +32,8 @@ APIJSONBoot 是一个基于 APIJSON7、Spring Boot3 和 JDK 17 构建的项目�
 
 ### 主数据源配置
 
+主数据源的url必须设置为sys库，其他数据源的url可以不指定数据库，在json请求中通过@schema指定
+
 主数据源在 `application.yaml` （部署后使用application-prod.yaml）文件中进行配置。
 
 ```yaml
@@ -40,7 +42,7 @@ mysql:
   # MySQL数据库版本号
   version: 8.3.0
   # MySQL数据库连接URL
-  url: jdbc:mysql://192.168.21.125:3306?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+  url: jdbc:mysql://192.168.21.125:3306/sys?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
   # MySQL数据库账号
   username: root
   # MySQL数据库密码
@@ -56,7 +58,7 @@ mysql:
 ```sql
 INSERT INTO `sys`.`data_source` (`pool_name`, `driver_class_name`, `url`, `username`, `password`)
 VALUES ('kd_pro_show', 'com.mysql.cj.jdbc.Driver',
-        'jdbc:mysql://192.168.21.191:3306/kd_pro_show?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8',
+        'jdbc:mysql://192.168.21.191:3306?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8',
         'root', 'root');
 ```
 
