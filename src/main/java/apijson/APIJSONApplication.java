@@ -14,7 +14,7 @@ limitations under the License.*/
 
 package apijson;
 
-import apijson.boot.controller.DemoController;
+import apijson.boot.controller.ApiController;
 import apijson.demo.*;
 import apijson.framework.APIJSONCreator;
 import apijson.framework.APIJSONParser;
@@ -114,7 +114,7 @@ public class APIJSONApplication implements WebServerFactoryCustomizer<Configurab
                         .allowedOriginPatterns("*")
                         .allowedMethods("*")
                         .allowCredentials(true)
-                        .exposedHeaders(DemoController.APIJSON_DELEGATE_ID)  // Cookie 和 Set-Cookie 怎么设置都没用 ,Cookie,Set-Cookie")   // .exposedHeaders("*")
+                        .exposedHeaders(ApiController.APIJSON_DELEGATE_ID)  // Cookie 和 Set-Cookie 怎么设置都没用 ,Cookie,Set-Cookie")   // .exposedHeaders("*")
                         .maxAge(3600);
             }
         };

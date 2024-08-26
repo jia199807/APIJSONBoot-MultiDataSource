@@ -18,7 +18,7 @@ package apijson.demo;
 import apijson.RequestMethod;
 import apijson.StringUtil;
 import apijson.boot.config.Config;
-import apijson.boot.controller.DemoController;
+import apijson.boot.controller.ApiController;
 import apijson.demo.model.Privacy;
 import apijson.framework.APIJSONObjectParser;
 import apijson.framework.APIJSONParser;
@@ -126,12 +126,12 @@ public class DemoParser extends APIJSONParser<Long> {
 
     @Override
     public APIJSONParser<Long> setSession(HttpSession session) {
-        Boolean asDBAccount = (Boolean) session.getAttribute(DemoController.AS_DB_ACCOUNT);
+        Boolean asDBAccount = (Boolean) session.getAttribute(ApiController.AS_DB_ACCOUNT);
         this.asDBAccount = asDBAccount != null && asDBAccount;
         if (this.asDBAccount) {
             // User user = (User) session.getAttribute(DemoController.USER_);
             // this.dbAccount = user.getName();
-            Privacy privacy = (Privacy) session.getAttribute(DemoController.PRIVACY_);
+            Privacy privacy = (Privacy) session.getAttribute(ApiController.PRIVACY_);
             this.dbAccount = privacy.getPhone();
             this.dbPassword = privacy.get__password();
         }

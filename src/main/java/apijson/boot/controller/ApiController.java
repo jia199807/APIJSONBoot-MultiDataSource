@@ -72,8 +72,8 @@ import static org.springframework.http.HttpHeaders.SET_COOKIE;
  */
 @Service
 @RestController
-@RequestMapping("kdPro")
-public class KdProController extends APIJSONRouterController<Long> {  // APIJSONController<Long> {
+@RequestMapping(value = {"", "kdPro"})
+public class ApiController extends APIJSONRouterController<Long> {  // APIJSONController<Long> {
     private static final String TAG = "DemoController";
 
     // 可以更方便地通过日志排查错误
@@ -139,7 +139,19 @@ public class KdProController extends APIJSONRouterController<Long> {  // APIJSON
     @PostMapping(value = "get")
     @Override
     public String get(@RequestBody String request, HttpSession session) {
-        return super.get(request, session);
+        // 通过new JSONObject的方式,在不关闭引用检测的情况下避免$ref
+        String result = super.get(request, session);
+
+        JSONObject jsonObject = JSON.parseObject(result);
+
+        JSONObject info = jsonObject.getJSONObject("info");
+
+        if (info != null) {
+            jsonObject.put("info", new JSONObject(info));
+        }
+
+        // 返回更新后的 JSON 字符串
+        return jsonObject.toJSONString();
     }
 
     /**
@@ -713,6 +725,7 @@ public class KdProController extends APIJSONRouterController<Long> {  // APIJSON
                         new Privacy().setPhone(phone)
                 )
         );
+        // 此处存在登录报错
         if (JSONResponse.isSuccess(phoneResponse) == false) {
             return DemoParser.newResult(phoneResponse.getIntValue(JSONResponse.KEY_CODE), phoneResponse.getString(JSONResponse.KEY_MSG));
         }
