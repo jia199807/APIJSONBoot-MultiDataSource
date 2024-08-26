@@ -153,26 +153,7 @@ public class DemoSQLExecutor extends APIJSONSQLExecutor<Long> {
                         // 从数据库中读取的其他数据源
                         dsMap.putAll(DataSourceManager.getAllDataSources());
 
-                        // 另一种方式是 DemoDataSourceConfig 初始化获取到 DataSource 后给静态变量 DATA_SOURCE_DRUID 赋值： ds = DemoDataSourceConfig.DATA_SOURCE_DRUID.getConnection();
-
-                        switch (datasource) {
-                            case "DRUID-TEST":
-                                ds = dsMap.get("druidTestDataSource");
-                                break;
-                            case "DRUID-ONLINE":
-                                ds = dsMap.get("druidOnlineDataSource");
-                                break;
-                            case "DRUID":
-                                ds = dsMap.get("druidDataSource");
-                                break;
-                            case "kd-pro":
-                                ds = dsMap.get("kdProDataSource");
-                                break;
-                            default:
-                                ds = dsMap.get(datasource);
-                                // ds = null;
-                                break;
-                        }
+                        ds = dsMap.get(datasource);
                         break;
                 }
 
