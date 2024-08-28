@@ -20,15 +20,14 @@ public class DataSourceController {
     public JSONObject getAllDataSource() {
         String jsonString = """
                 {
-                    "[]": {
-                        "query": 2,
-                        "total": 0,
-                        "DataSource": {
-
-                        }
-                    },
-                    "info@": "/[]/info"
-                }""";
+                     "[]": {
+                         "query": 2,
+                         "count": 0,
+                         "DataSource": {
+                             "@column": "pool_name,url"
+                         }
+                     },
+                 }""";
         JSONObject jsonObject = JSON.parseObject(jsonString);
         return new DemoParser(GETS, false).parseResponse(jsonObject);
     }
