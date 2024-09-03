@@ -1,6 +1,7 @@
 package apijson.boot.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
-public class DataSourceManager {
+public class DataSourceManager implements SmartInitializingSingleton {
 
     // 存储动态数据源的映射
     private static final Map<String, DataSource> dataSourceMap = new ConcurrentHashMap<>();
@@ -105,8 +106,6 @@ public class DataSourceManager {
 
         initializer.setEnabled(true); // 启用初始化器
 
-        // 从数据库加载数据源配置
-        loadDataSource();
         return initializer;
     }
 
@@ -153,4 +152,8 @@ public class DataSourceManager {
         updateDataSource(map);
     }
 
+    @Override
+    public void afterSingletonsInstantiated() {
+        loadDataSource();
+    }
 }
