@@ -24,19 +24,21 @@
 </p>
 <p><a href="/ui/index.html">界面 UIGO 测试</a>: <a href="https://github.com/TommyLemon/UIGO">https://github.com/TommyLemon/UIGO</a>
 </p>
+<p><a href="/ui/index.html"> 帮助指南</a>
+</p>
 
 <script language="javascript">
-    var url = window.location == null ? URL_BASE : window.location.toString()
-    var ind = url.indexOf('?')
-    var query = ind < 0 ? '' : url.substring(ind + 1)
-    url = ind < 0 ? url : url.substring(0, ind)
-
-    setTimeout(function () {
-        location.replace(
-            (url.indexOf('/static/index.html') < 0 ? url + (url.endsWith('/') ? 'api' : '/api')
-                    : url.replace('/static/index.html', '/static/api/index.html')
-            ) + (query.length <= 0 ? '' : '?' + query)
-        )
-    }, 5000)
+    // var url = window.location == null ? URL_BASE : window.location.toString()
+    // var ind = url.indexOf('?')
+    // var query = ind < 0 ? '' : url.substring(ind + 1)
+    // url = ind < 0 ? url : url.substring(0, ind)
+    //
+    // setTimeout(function () {
+    //     location.replace(
+    //         (url.indexOf('/static/index.html') < 0 ? url + (url.endsWith('/') ? 'api' : '/api')
+    //                 : url.replace('/static/index.html', '/static/api/index.html')
+    //         ) + (query.length <= 0 ? '' : '?' + query)
+    //     )
+    // }, 5000)
 </script>
 </body>
