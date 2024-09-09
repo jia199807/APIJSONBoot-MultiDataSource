@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 192.168.21.125-开发库
+ Source Server         : 192.168.21.182
  Source Server Type    : MySQL
  Source Server Version : 80300
- Source Host           : 192.168.21.125:3306
+ Source Host           : 192.168.21.182:3306
  Source Schema         : sys
 
  Target Server Type    : MySQL
  Target Server Version : 80300
  File Encoding         : 65001
 
- Date: 19/08/2024 10:10:08
+ Date: 09/09/2024 14:52:53
 */
 
 SET NAMES utf8mb4;
@@ -38,7 +38,7 @@ CREATE TABLE `Access`  (
   `detail` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `alias_UNIQUE`(`alias` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '权限配置(必须)' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 85 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '权限配置(必须)' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of Access
@@ -102,12 +102,15 @@ INSERT INTO `Access` VALUES (63, 0, NULL, 'menu', 'Menu', '[\"UNKNOWN\", \"LOGIN
 INSERT INTO `Access` VALUES (64, 0, NULL, 't_elemenet_rel', 'TElemenetRel', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-03-06 17:37:48', NULL);
 INSERT INTO `Access` VALUES (65, 0, NULL, 'log', 'Log', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-03-15 19:09:09', NULL);
 INSERT INTO `Access` VALUES (66, 0, NULL, 'user', 'KD_USER', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-03-15 22:00:41', NULL);
-INSERT INTO `Access` VALUES (68, 0, NULL, 'data_source', 'Datasource', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-04-11 00:03:57', NULL);
+INSERT INTO `Access` VALUES (68, 0, NULL, 'data_source', 'DataSource', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-04-11 00:03:57', NULL);
 INSERT INTO `Access` VALUES (69, 0, NULL, 'icon', 'Icon', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-04-26 00:11:13', NULL);
 INSERT INTO `Access` VALUES (70, 0, NULL, 'sys_config', 'SysConfig', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-05-11 10:58:30', NULL);
 INSERT INTO `Access` VALUES (73, 0, NULL, 'version', 'Version', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-07-01 14:45:14', NULL);
 INSERT INTO `Access` VALUES (75, 0, NULL, 'user_view', 'UserView', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-07-01 15:04:17', NULL);
 INSERT INTO `Access` VALUES (76, 0, NULL, 'table_rel', 'TableRel', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-07-09 11:41:24', NULL);
+INSERT INTO `Access` VALUES (82, 0, NULL, 't_files', 'TFiles', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '[\"UNKNOWN\", \"LOGIN\", \"CONTACT\", \"CIRCLE\", \"OWNER\", \"ADMIN\"]', '2024-09-09 11:50:37', NULL);
+INSERT INTO `Access` VALUES (83, 0, NULL, 'test123', 'Test123', '[\"UNKNOWN\",\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\",\"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '2024-09-09 12:22:22', NULL);
+INSERT INTO `Access` VALUES (84, 0, NULL, 'test_table', 'TestTable', '[\"UNKNOWN\",\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"OWNER\",\"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '[\"UNKNOWN\",\"LOGIN\",\"CONTACT\",\"CIRCLE\",\"OWNER\",\"ADMIN\"]', '2024-09-09 14:42:04', NULL);
 
 -- ----------------------------
 -- Table structure for Comment
@@ -6183,7 +6186,7 @@ CREATE TABLE `Request`  (
   `detail` varchar(10000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '详细说明',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1658229984422 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '请求参数校验配置(必须)。\n最好编辑完后删除主键，这样就是只读状态，不能随意更改。需要更改就重新加上主键。\n\n每次启动服务器时加载整个表到内存。\n这个表不可省略，model内注解的权限只是客户端能用的，其它可以保证即便服务端代码错误时也不会误删数据。' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1658229984442 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '请求参数校验配置(必须)。\n最好编辑完后删除主键，这样就是只读状态，不能随意更改。需要更改就重新加上主键。\n\n每次启动服务器时加载整个表到内存。\n这个表不可省略，model内注解的权限只是客户端能用的，其它可以保证即便服务端代码错误时也不会误删数据。' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of Request
@@ -6374,6 +6377,22 @@ INSERT INTO `Request` VALUES (1658229984418, 0, 1, 'POST', 'TableRel', '{}', '',
 INSERT INTO `Request` VALUES (1658229984419, 0, 1, 'GET', 'TableRel', '{}', '', '2024-07-09 11:41:36');
 INSERT INTO `Request` VALUES (1658229984420, 0, 1, 'DELETE', 'TableRel', '{}', '', '2024-07-09 11:41:36');
 INSERT INTO `Request` VALUES (1658229984421, 0, 1, 'PUT', 'TableRel', '{}', '', '2024-07-09 11:41:36');
+INSERT INTO `Request` VALUES (1658229984426, 0, 1, 'POST', 'Test', '{}', '', '2024-09-09 11:35:19');
+INSERT INTO `Request` VALUES (1658229984427, 0, 1, 'GET', 'Test', '{}', '', '2024-09-09 11:35:19');
+INSERT INTO `Request` VALUES (1658229984428, 0, 1, 'DELETE', 'Test', '{}', '', '2024-09-09 11:35:19');
+INSERT INTO `Request` VALUES (1658229984429, 0, 1, 'PUT', 'Test', '{}', '', '2024-09-09 11:35:19');
+INSERT INTO `Request` VALUES (1658229984430, 0, 1, 'POST', 'TFiles', '{}', '', '2024-09-09 11:50:41');
+INSERT INTO `Request` VALUES (1658229984431, 0, 1, 'GET', 'TFiles', '{}', '', '2024-09-09 11:50:41');
+INSERT INTO `Request` VALUES (1658229984432, 0, 1, 'DELETE', 'TFiles', '{}', '', '2024-09-09 11:50:41');
+INSERT INTO `Request` VALUES (1658229984433, 0, 1, 'PUT', 'TFiles', '{}', '', '2024-09-09 11:50:41');
+INSERT INTO `Request` VALUES (1658229984434, 0, 1, 'POST', 'Test123', '{}', '', '2024-09-09 12:22:22');
+INSERT INTO `Request` VALUES (1658229984435, 0, 1, 'GET', 'Test123', '{}', '', '2024-09-09 12:22:22');
+INSERT INTO `Request` VALUES (1658229984436, 0, 1, 'DELETE', 'Test123', '{}', '', '2024-09-09 12:22:22');
+INSERT INTO `Request` VALUES (1658229984437, 0, 1, 'PUT', 'Test123', '{}', '', '2024-09-09 12:22:22');
+INSERT INTO `Request` VALUES (1658229984438, 0, 1, 'POST', 'TestTable', '{}', '', '2024-09-09 14:42:04');
+INSERT INTO `Request` VALUES (1658229984439, 0, 1, 'GET', 'TestTable', '{}', '', '2024-09-09 14:42:04');
+INSERT INTO `Request` VALUES (1658229984440, 0, 1, 'DELETE', 'TestTable', '{}', '', '2024-09-09 14:42:04');
+INSERT INTO `Request` VALUES (1658229984441, 0, 1, 'PUT', 'TestTable', '{}', '', '2024-09-09 14:42:04');
 
 -- ----------------------------
 -- Table structure for Script
@@ -12078,9 +12097,12 @@ CREATE TABLE `data_source`  (
 -- ----------------------------
 -- Records of data_source
 -- ----------------------------
+INSERT INTO `data_source` VALUES ('1', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://uib-ip:3306/information_schema?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8', 'root', 'root');
 INSERT INTO `data_source` VALUES ('kd_pro_show', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://192.168.21.125:3306/kd_pro_show?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8', 'root', 'root');
-INSERT INTO `data_source` VALUES ('kd_pro_show_dev', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://192.168.21.125:3306/kd_pro_show?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8', 'root', 'root');
-INSERT INTO `data_source` VALUES ('kd_pro_show_schema', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://kd-pro-mysql:3306/information_schema?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8', 'root', 'root');
+INSERT INTO `data_source` VALUES ('kd_pro_show110', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://192.168.21.125:3306/kd_pro_show?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8', 'root', 'root');
+INSERT INTO `data_source` VALUES ('kd_pro_show111', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://192.168.21.125:3306/kd_pro_show?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8', 'root', 'root');
+INSERT INTO `data_source` VALUES ('test222', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://192.168.21.125:3306/kd_pro_show?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8', 'root', 'root');
+INSERT INTO `data_source` VALUES ('ui_builder2', 'com.mysql.cj.jdbc.Driver', 'jdbc:mysql://uib-ip:3306/ui_builder2?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8', 'root', 'root');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -12103,28 +12125,5 @@ INSERT INTO `sys_config` VALUES ('ps_thread_trx_info.max_length', '65535', '2023
 INSERT INTO `sys_config` VALUES ('statement_performance_analyzer.limit', '100', '2023-10-31 20:37:57', NULL);
 INSERT INTO `sys_config` VALUES ('statement_performance_analyzer.view', NULL, '2023-10-31 20:37:57', NULL);
 INSERT INTO `sys_config` VALUES ('statement_truncate_len', '64', '2023-10-31 20:37:57', NULL);
-
--- ----------------------------
--- Table structure for table_rel
--- ----------------------------
-DROP TABLE IF EXISTS `table_rel`;
-CREATE TABLE `table_rel`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `table_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `table_schema` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `table_id`(`table_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of table_rel
--- ----------------------------
-INSERT INTO `table_rel` VALUES (4, 'Q-API-TABLEdtqtaf1177yx', '[{\"name\":\"test1\",\"comment\":\"test1\",\"rule\":{\"@combine\":\"test1\"}},{\"name\":\"test2\",\"comment\":\"test2\",\"rule\":{\"@combine\":\"test2\"}},{\"name\":\"test3\",\"comment\":\"test3\",\"rule\":{\"@combine\":\"test3\"}}]');
-INSERT INTO `table_rel` VALUES (5, 'Q-API-TABLEuk8qfciv6azb', '[{\"name\":\"test1\",\"comment\":\"test1\",\"rule\":{\"@combine\":\"test1\"}},{\"name\":\"test2\",\"comment\":\"test2\",\"rule\":{\"@combine\":\"test2\"}}]');
-INSERT INTO `table_rel` VALUES (6, 'Q-API-TABLEget3biebsct8', '[{\"name\":\"test1\",\"comment\":\"test1\",\"rule\":{\"@combine\":\"test1\"}},{\"name\":\"test2\",\"comment\":\"test2\",\"rule\":{\"@combine\":\"test2\"}}]');
-INSERT INTO `table_rel` VALUES (7, 'Q-API-TABLEyhzrsefhokba', '[{\"name\":\"test1\",\"comment\":\"test1\",\"rule\":{\"@combine\":\"test1\"}},{\"name\":\"test2\",\"comment\":\"test2\",\"rule\":{\"@combine\":\"test2\"}},{\"name\":\"test2\",\"comment\":\"test2\",\"rule\":{\"@combine\":\"test2\"}}]');
-INSERT INTO `table_rel` VALUES (8, 'Q-API-TABLEtllavx8e4xv1', '[{\"name\":\"33\",\"comment\":\"\",\"rule\":{\"@combine\":\"\"}},{\"name\":\"41\",\"comment\":\"\",\"rule\":{\"@combine\":\"\"}}]');
-INSERT INTO `table_rel` VALUES (9, 'Q-API-TABLEf39s84pa3u6m', '[{\"name\":\"test1\",\"comment\":\"test1\",\"rule\":{\"@combine\":\"test1\"}}]');
-INSERT INTO `table_rel` VALUES (48, 'Q-API-TABLEa6h4ezxvi26l', '\n[{\n    \"name\": \"\", // 字段名\n    \"comment\": \"\",  // 备注\n    \"rule\": {\n      \"@combine\": \"\" // 联合查询规则 例如：type$,!name$\n    }\n  }\n]');
 
 SET FOREIGN_KEY_CHECKS = 1;
