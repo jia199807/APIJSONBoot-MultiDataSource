@@ -10,7 +10,7 @@
     </parent>
     <groupId>apijson.boot</groupId>
     <artifactId>apijson-boot-multi-datasource</artifactId>
-    <version>7.0.0</version>
+    <version>7.0.3</version>
     <packaging>jar</packaging>
 
     <name>APIJSONBoot-MultiDataSource</name>

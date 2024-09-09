@@ -3,7 +3,7 @@ mysql:
   # MySQL数据库版本号
   version: 8.3.0
   # MySQL数据库连接URL
-  url: jdbc:mysql://kd-pro-mysql:3306/sys?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+  url: jdbc:mysql://localhost:3306/sys?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
   # MySQL数据库账号
   username: root
   # MySQL数据库密码
@@ -13,9 +13,9 @@ mysql:
 
 apijson:
   # 是否开启debug模式
-  debug: false
+  debug: true
   # 是否打印大日志
-  isPrintBigLog: false
+  isPrintBigLog: true
 
   maxQueryCount: 2000
   maxUpdateCount: 2000
