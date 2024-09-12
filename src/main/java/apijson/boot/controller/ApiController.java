@@ -139,19 +139,11 @@ public class ApiController extends APIJSONRouterController<Long> {  // APIJSONCo
     @PostMapping(value = "get")
     @Override
     public String get(@RequestBody String request, HttpSession session) {
-        // 通过new JSONObject的方式,在不关闭引用检测的情况下避免$ref
         String result = super.get(request, session);
 
         JSONObject jsonObject = JSON.parseObject(result);
 
-        JSONObject info = jsonObject.getJSONObject("info");
-
-        if (info != null) {
-            jsonObject.put("info", new JSONObject(info));
-        }
-
-        // 返回更新后的 JSON 字符串
-        return jsonObject.toJSONString();
+        return JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     /**
