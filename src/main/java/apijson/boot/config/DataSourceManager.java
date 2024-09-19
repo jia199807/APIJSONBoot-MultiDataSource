@@ -118,7 +118,7 @@ public class DataSourceManager implements SmartInitializingSingleton {
         // 使用 JdbcTemplate 查询数据源配置
         String sql = "SELECT pool_name, username, password, url, driver_class_name FROM data_source";
         jdbcTemplate.query(sql, rs -> {
-            while (rs.next()) {
+            do {
                 String name = rs.getString("pool_name");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
@@ -146,7 +146,7 @@ public class DataSourceManager implements SmartInitializingSingleton {
                 dataSource.setConnectionProperties("druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000");
 
                 map.put(name, dataSource);
-            }
+            }while (rs.next());
         });
         // 更新数据源映射
         updateDataSource(map);
